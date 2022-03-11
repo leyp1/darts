@@ -702,10 +702,9 @@ class TorchForecastingModel(GlobalForecastingModel, ABC):
 
         series = wrap_fn(series)
         print("#=#=#=#=# INTERNAL #=#=#=#=#")
-        print("Location: torch_forecasting_model.py")
+        print("Location: torch_forecasting_model.py -> fit(...)")
         print("Dataset is loaded into wrap_fn() and looks like this: ")
-        for el in series:
-            print(el.first_value())
+        print(series)
         print("#=#=#=#=# INTERNAL #=#=#=#=#")
         past_covariates = wrap_fn(past_covariates)
         future_covariates = wrap_fn(future_covariates)
@@ -1567,6 +1566,12 @@ class PastCovariatesTorchModel(TorchForecastingModel, ABC):
         max_samples_per_ts: Optional[int],
     ) -> PastCovariatesTrainingDataset:
 
+        
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: torch_forecasting_model.py -> _build_train_dataset(...)")
+        print("Dataset is passed and looks like this: ")
+        print(target)
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
         raise_if_not(
             future_covariates is None,
             "Specified future_covariates for a PastCovariatesModel (only past_covariates are expected).",
