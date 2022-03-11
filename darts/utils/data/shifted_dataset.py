@@ -485,6 +485,13 @@ class GenericShiftedDataset(TrainingDataset):
         self.target_series = (
             [target_series] if isinstance(target_series, TimeSeries) else target_series
         )
+        
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: shifted_dataset.py -> init(...) of GenericShiftedDataset")
+        print("Dataset is saved and looks like this: ")
+        print(self.target_series)
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        
         self.covariates = (
             [covariates] if isinstance(covariates, TimeSeries) else covariates
         )
@@ -597,5 +604,9 @@ class GenericShiftedDataset(TrainingDataset):
                 f"whose time axis doesn't allow to obtain the input (or output) chunk relative to the "
                 f"target series.",
             )
-
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: shifted_dataset.py -> __getitem__(...) of GenericShiftedDataset")
+        print("Dataset that is returned by __getitem__: ")
+        print(past_target)
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
         return past_target, covariate, future_target
