@@ -68,7 +68,13 @@ class PastCovariatesSequentialDataset(PastCovariatesTrainingDataset):
         """
 
         super().__init__()
-
+        
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: sequential_dataset.py -> PastCovariatesSequentialDataset(...)")
+        print("Dataset is passed and looks like this: ")
+        print(target)
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        
         self.ds = GenericShiftedDataset(
             target_series=target_series,
             covariates=covariates,
