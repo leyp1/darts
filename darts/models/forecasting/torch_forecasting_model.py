@@ -701,6 +701,12 @@ class TorchForecastingModel(GlobalForecastingModel, ABC):
             return [ts] if isinstance(ts, TimeSeries) else ts
 
         series = wrap_fn(series)
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: torch_forecasting_model.py")
+        print("Dataset is loaded into wrap_fn() and looks like this: ")
+        for el in series:
+            print(el.first_value())
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
         past_covariates = wrap_fn(past_covariates)
         future_covariates = wrap_fn(future_covariates)
         val_series = wrap_fn(val_series)
