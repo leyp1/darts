@@ -21,7 +21,7 @@ from torch._six import string_classes
 from torch.utils.data import IterDataPipe, IterableDataset, Sampler, SequentialSampler, RandomSampler, BatchSampler, Dataset
 from torch.utils.data import _utils
 
-import torch.utils.data.graph_settings
+#import torch.utils.data.graph_settings
 
 T_co = TypeVar('T_co', covariant=True)
 T = TypeVar('T')
@@ -234,12 +234,12 @@ class DataLoader(Generic[T_co]):
             # option. If this turns out to be useful in future, we can re-enable
             # this, and support custom samplers that specify the assignments to
             # specific workers.
-            if isinstance(dataset, IterDataPipe):
+            """if isinstance(dataset, IterDataPipe):
                 torch.utils.data.graph_settings.apply_shuffle_settings(dataset, shuffle=shuffle)
             elif shuffle is not False:
                 raise ValueError(
                     "DataLoader with IterableDataset: expected unspecified "
-                    "shuffle option, but got shuffle={}".format(shuffle))
+                    "shuffle option, but got shuffle={}".format(shuffle))"""
 
             if sampler is not None:
                 # See NOTE [ Custom Samplers and IterableDataset ]
