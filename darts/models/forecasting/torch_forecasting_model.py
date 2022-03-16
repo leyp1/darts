@@ -1,4 +1,4 @@
-r"""Definition of the DataLoader and associated iterators that subclass _BaseDataLoaderIter
+"""Definition of the DataLoader and associated iterators that subclass _BaseDataLoaderIter
 
 To support these two classes, in `./_utils` we define many utility methods and
 functions to be run in multiprocessing. E.g., the data loading worker loop is
@@ -73,7 +73,7 @@ class _InfiniteConstantSampler(Sampler):
 
 
 
-[docs]class DataLoader(Generic[T_co]):
+class DataLoader(Generic[T_co]):
     r"""
     Data loader. Combines a dataset and a sampler, and provides an iterable over
     the given dataset.
