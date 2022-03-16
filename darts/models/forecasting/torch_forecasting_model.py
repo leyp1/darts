@@ -1,4 +1,3 @@
-##############################################  DATALOADER  ##############################################
 """
 This file contains several abstract classes:
 
