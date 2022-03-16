@@ -31,7 +31,6 @@ import torch
 from pytorch_lightning import loggers as pl_loggers
 from torch import Tensor
 #from torch.utils.data import DataLoader
-from darts.utils.dataloader import DataLoader
 
 from darts.logging import (
     get_logger,
@@ -77,6 +76,8 @@ RUNS_FOLDER = "runs"
 INIT_MODEL_NAME = "_model.pth.tar"
 
 logger = get_logger(__name__)
+
+from darts.utils.dataloader import DataLoader
 
 
 def _get_checkpoint_folder(work_dir, model_name):
