@@ -197,6 +197,11 @@ class _InfiniteConstantSampler(Sampler):
         self.timeout = timeout
         self.worker_init_fn = worker_init_fn
         self.multiprocessing_context = multiprocessing_context
+        
+        #=#=#=#=# INTERNAL #=#=#=#=#
+        Location: torch_forecasting_model.py -> DataLoader(...)
+        print("Dataset is saved and looks like this:")
+        print(self.dataset)
 
         # Arg-check dataset related before checking samplers because we want to
         # tell users that iterable-style datasets are incompatible with custom
