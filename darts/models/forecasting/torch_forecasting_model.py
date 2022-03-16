@@ -32,6 +32,7 @@ import torch
 from pytorch_lightning import loggers as pl_loggers
 from torch import Tensor
 #from torch.utils.data import DataLoader
+from darts.utils.dataloader import DataLoader
 
 from darts.logging import (
     get_logger,
