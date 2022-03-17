@@ -229,6 +229,10 @@ class BatchSampler(Sampler[List[int]]):
         for idx in self.sampler:
             batch.append(idx)
             if len(batch) == self.batch_size:
+                print("#=#=#=#=# INTERNAL #=#=#=#=#")
+                print("Location: dataloader.py -> BatchSampler -> __iter__(...)")
+                print("batch returned by __iter__(): ")
+                print(batch)
                 yield batch
                 batch = []
         if len(batch) > 0 and not self.drop_last:
