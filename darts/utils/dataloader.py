@@ -54,6 +54,11 @@ class _MapDatasetFetcher(_BaseDatasetFetcher):
             data = [self.dataset[idx] for idx in possibly_batched_index]
         else:
             data = self.dataset[possibly_batched_index]
+            
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: dataloader.py -> _MapDatasetFetcher -> fetch(...)")
+        print("fetch() returns: ")
+        print(self.collate_fn(data))
         return self.collate_fn(data)
 
 import torch
