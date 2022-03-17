@@ -536,8 +536,8 @@ class DataLoader(Generic[T_co]):
 
         if batch_size is not None and batch_sampler is None:
             # auto_collation without custom batch_sampler
-            print("batch_size is", batch_size, "and batch_sampler is ", batch_sampler)
             batch_sampler = BatchSampler(sampler, batch_size, drop_last)
+            print("batch_size is", batch_size, "and batch_sampler is ", batch_sampler)
 
         self.batch_size = batch_size
         self.drop_last = drop_last
@@ -826,6 +826,12 @@ class _SingleProcessDataLoaderIter(_BaseDataLoaderIter):
     def _next_data(self):
         index = self._next_index()  # may raise StopIteration
         data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: dataloarder.py -> _SingleProcessDataLoaderIter -> _next_data(...)")
+        print("index is: ")
+        print(index)
+        print("data is: ")
+        print(data)
         if self._pin_memory:
             data = _utils.pin_memory.pin_memory(data)
         return data
