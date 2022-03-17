@@ -37,6 +37,11 @@ class _IterableDatasetFetcher(_BaseDatasetFetcher):
                 raise StopIteration
         else:
             data = next(self.dataset_iter)
+            
+        print("#=#=#=#=# INTERNAL #=#=#=#=#")
+        print("Location: dataloader.py -> _IterableDatasetFetcher -> fetch(...)")
+        print("fetch() returns: ")
+        print(self.collate_fn(data))
         return self.collate_fn(data)
 
 
