@@ -536,6 +536,7 @@ class DataLoader(Generic[T_co]):
 
         if batch_size is not None and batch_sampler is None:
             # auto_collation without custom batch_sampler
+            print("batch_size is", batch_size, "and batch_sampler is ", batch_sampler)
             batch_sampler = BatchSampler(sampler, batch_size, drop_last)
 
         self.batch_size = batch_size
