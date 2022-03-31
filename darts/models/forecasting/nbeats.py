@@ -166,17 +166,6 @@ class _Block(nn.Module):
             self.forecast_g = _SeasonalityGenerator(target_length)
         else:
             raise_log(ValueError("g_type not supported"), logger)
-        
-        print("#=#=#=#=# MODEL INIT #=#=#=#=#")
-        print("Location: nbeats.py -> _Block")
-        print("Linear Layer List: ")
-        print(self.linear_layer_stack_list)
-        print("Backcast and Forecast Linear Layer")
-        print(self.backcast_linear_layer)
-        print(self.forecast_linear_layer)
-        print("Waveform generator applications")
-        print(self.backcast_g)
-        print(self.forecast_g)
 
     def forward(self, x, i):
         print("#=#=#=#=# MODEL #=#=#=#=#")
@@ -289,10 +278,6 @@ class _Stack(nn.Module):
             self.blocks_list = [interpretable_block] * num_blocks
 
         self.blocks = nn.ModuleList(self.blocks_list)
-        print("#=#=#=#=# MODEL INIT #=#=#=#=#")
-        print("Location: nbeats.py -> _Stack")
-        print("Block List: ")
-        print(self.blocks_list)
 
     def forward(self, x, j):
         
