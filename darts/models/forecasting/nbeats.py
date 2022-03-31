@@ -166,8 +166,26 @@ class _Block(nn.Module):
             self.forecast_g = _SeasonalityGenerator(target_length)
         else:
             raise_log(ValueError("g_type not supported"), logger)
+        
+        print("#=#=#=#=# MODEL INIT #=#=#=#=#")
+        print("Location: nbeats.py -> _Block")
+        print("Linear Layer List: ")
+        print(self.linear_layer_stack_list)
+        print("Backcast and Forecast Linear Layer")
+        print(self.backcast_linear_layer)
+        print(self.forecast_linear_layer)
+        print("Waveform generator applications")
+        print(self.backcast_g)
+        print(self.forecast_g)
 
-    def forward(self, x):
+    def forward(self, x, i):
+        print("#=#=#=#=# MODEL #=#=#=#=#")
+        print("_Block number: ", i)
+        print("Location: nbeats.py -> _Block(...) -> forward(self, x)")
+        print("Dataset is loaded into forward: ")
+        print(x)
+        print("with batchsize:", x.shape[0])
+        
         batch_size = x.shape[0]
 
         # fully connected layer stack
@@ -271,8 +289,19 @@ class _Stack(nn.Module):
             self.blocks_list = [interpretable_block] * num_blocks
 
         self.blocks = nn.ModuleList(self.blocks_list)
+        print("#=#=#=#=# MODEL INIT #=#=#=#=#")
+        print("Location: nbeats.py -> _Stack")
+        print("Block List: ")
+        print(self.blocks_list)
 
-    def forward(self, x):
+    def forward(self, x, j):
+        
+        print("#=#=#=#=# MODEL #=#=#=#=#")
+        print("_Stack number: ", j)
+        print("Location: nbeats.py -> _Stack(...) -> forward(self, x)")
+        print("Dataset is loaded into forward: ")
+        print(x)
+        
         # One forecast vector per parameter in the distribution
         stack_forecast = torch.zeros(
             x.shape[0],
@@ -281,16 +310,18 @@ class _Stack(nn.Module):
             device=x.device,
             dtype=x.dtype,
         )
-
+        i=0
         for block in self.blocks_list:
             # pass input through block
-            x_hat, y_hat = block(x)
+            x_hat, y_hat = block(x,i)
 
             # add block forecast to stack forecast
             stack_forecast = stack_forecast + y_hat
 
             # subtract backcast from input to produce residual
             x = x - x_hat
+            
+            i += 1
 
         stack_residual = x
 
@@ -405,6 +436,12 @@ class _NBEATSModule(PLPastCovariatesModule):
             )
             self.stacks_list = [trend_stack, seasonality_stack]
 
+        
+        print("#=#=#=#=# MODEL INIT #=#=#=#=#")
+        print("Location: nbeats.py -> NBEATSModule")
+        print("Stacklist: ")
+        print(self.stacks_list)
+              
         self.stacks = nn.ModuleList(self.stacks_list)
 
         # setting the last backcast "branch" to be not trainable (without next block/stack, it doesn't need to be
@@ -420,6 +457,11 @@ class _NBEATSModule(PLPastCovariatesModule):
         x = torch.reshape(x, (x.shape[0], self.input_chunk_length_multi, 1))
         # squeeze last dimension (because model is univariate)
         x = x.squeeze(dim=2)
+              
+        print("#=#=#=#=# MODEL #=#=#=#=#")
+        print("Location: nbeats.py -> NBEATSModule(...) -> forward(self, x)")
+        print("Dataset is loaded into forward: ")
+        print(x)
 
         # One vector of length target_length per parameter in the distribution
         y = torch.zeros(
@@ -429,16 +471,18 @@ class _NBEATSModule(PLPastCovariatesModule):
             device=x.device,
             dtype=x.dtype,
         )
-
+        
+        i=0
         for stack in self.stacks_list:
             # compute stack output
-            stack_residual, stack_forecast = stack(x)
+            stack_residual, stack_forecast = stack(x, i)
 
             # add stack forecast to final output
             y = y + stack_forecast
 
             # set current stack residual as input for next stack
             x = stack_residual
+            i+=1
 
         # In multivariate case, we get a result [x1_param1, x1_param2], [y1_param1, y1_param2], [x2..], [y2..], ...
         # We want to reshape to original format. We also get rid of the covariates and keep only the target dimensions.
